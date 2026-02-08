@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine's Day for Pho Lu Yi</title>
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Arial', sans-serif;
+        overflow: hidden;
+        height: 100%;
+        width: 100%;
+    }
+    .page {
+        width: 100%;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        color: white;
+        padding: 20px;
+        box-sizing: border-box;
+        background-size: cover;
+        background-position: center;
+    }
+    .active { display: flex; }
+    img.profile { 
+        width: 250px; 
+        height: 250px; 
+        border-radius: 50%; 
+        object-fit: cover; 
+        border: 5px solid darkred; 
+        margin-bottom: 20px;
+    }
+    button {
+        padding: 15px 30px;
+        font-size: 1.2em;
+        background-color: darkred;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        margin: 10px;
+        transition: 0.3s;
+        position: relative;
+        z-index: 2;
+    }
+    button:hover { background-color: crimson; }
+    h1 { font-size: 3em; margin-bottom: 20px; text-shadow: 2px 2px 6px black; }
+    p { font-size: 1.5em; margin-bottom: 20px; text-shadow: 1px 1px 5px black; }
+
+    /* Hearts & confetti */
+    .heart, .confetti {
+        position: absolute;
+        z-index: 10;
+        animation: float 5s linear forwards;
+    }
+    @keyframes float {
+        0% { transform: translateY(0) rotate(0deg); opacity:1; }
+        100% { transform: translateY(600px) rotate(360deg); opacity:0; }
+    }
+</style>
+</head>
+<body>
+
+<!-- Page 1: Selection -->
+<div class="page active" id="page1" style="background: pink;">
+    <h1>Pho Lu Yi 💖</h1>
+    <img src="pho_luyi.jpg" alt="Pho Lu Yi" class="profile">
+    <p>Will you be my Valentine?</p>
+    <div>
+        <button onclick="nextPage()">Yes! 💕</button>
+        <button id="noBtn">No 😢</button>
+    </div>
+</div>
+
+<!-- Itinerary Pages with Background Images -->
+<div class="page" id="page2" style="background-image: url('cooking.jpg');">
+    <h1>Cooking Fun 🥗🍳</h1>
+    <p>Let’s cook together and create some tasty magic in the kitchen — laughter and flavors await! 😋💖</p>
+    <button onclick="nextPage()">Next ➡️</button>
+</div>
+
+<div class="page" id="page3" style="background-image: url('kite.jpg');">
+    <h1>Kite Adventure 🪁🌤️</h1>
+    <p>Fly kites and feel the wind on our faces as we laugh together under the open sky! 🌬️🪁💞</p>
+    <button onclick="nextPage()">Next ➡️</button>
+</div>
+
+<div class="page" id="page4" style="background-image: url('stroll.jpg');">
+    <h1>Evening Stroll 🍷</h1>
+    <p>Hand-in-hand, we’ll stroll to dinner at 7:30 PM, hearts full of excitement and smiles 😊✨</p>
+    <button onclick="nextPage()">Next ➡️</button>
+</div>
+
+<div class="page" id="page5" style="background-image: url('dinner.jpg');">
+    <h1>Lovely Dinner 🍽️💖</h1>
+    <p>Dinner at 8:30 PM — a feast for our taste buds and our hearts! Delicious food, laughter, and unforgettable moments await. 💕🍷</p>
+    <p>With love, <br><strong>Your beloved Taiwanese baby, HUANG KAIYU 💖</strong></p>
+</div>
+
+<script>
+// No button dodges cursor
+const noBtn = document.getElementById('noBtn');
+noBtn.addEventListener('mouseenter', () => {
+    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+    noBtn.style.position = 'absolute';
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+});
+
+// Page management
+let currentPage = 1;
+const totalPages = 5;
+
+function nextPage() {
+    if (currentPage < totalPages) {
+        document.getElementById('page' + currentPage).classList.remove('active');
+        currentPage++;
+        document.getElementById('page' + currentPage).classList.add('active');
+        triggerConfetti(150);
+        triggerHearts(100);
+    }
+}
+
+// Hearts
+function triggerHearts(count) {
+    for (let i = 0; i < count; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML = '❤️';
+        heart.style.fontSize = Math.random()*30 + 20 + 'px';
+        heart.style.left = Math.random()*window.innerWidth + 'px';
+        heart.style.top = Math.random()*window.innerHeight + 'px';
+        heart.style.animationDuration = Math.random()*3 + 3 + 's';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+    }
+}
+
+// Confetti
+function triggerConfetti(count) {
+    for (let i = 0; i < count; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 50%)`;
+        confetti.style.left = Math.random()*window.innerWidth + 'px';
+        confetti.style.top = '-10px';
+        confetti.style.width = Math.random()*10 + 5 + 'px';
+        confetti.style.height = Math.random()*10 + 5 + 'px';
+        confetti.style.animationDuration = Math.random()*2 + 3 + 's';
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 5000);
+    }
+}
+</script>
+
+</body>
+</html>
